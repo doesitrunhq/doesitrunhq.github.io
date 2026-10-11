@@ -54,8 +54,10 @@ footer a{color:var(--mut)}
 <div><span>Version tested</span>1.0.169 (abb10484)</div>
 <div><span>Tested on</span>2026-10-11</div>
 <div><span>Security risk</span>medio</div></div><p><a class="btn" href="https://www.youtube.com/shorts/h3AdocQbXCs">Watch on YouTube</a><a class="btn alt" href="https://www.instagram.com/reel/DeX1FjqgfVP/">Watch on Instagram</a></p>
-<h2>Commands we ran</h2><p>Everything ran in a disposable Docker container. Reproduce with:</p>
-<pre><code>git clone --depth 1 https://github.com/mksglu/context-mode.git &amp;&amp; npm install -g context-mode &amp;&amp; node cm.mjs nosso  (cm.mjs em captura/: cliente MCP via stdio que chama ctx_execute_file; criar ~/vendas.log antes). Container: python pipeline/testar/sandbox.py iniciar context-mode</code></pre><ol><li><strong>clone e versao</strong> <span class="ok">ok</span><pre><code>git clone --depth 1 ... &amp;&amp; git rev-parse HEAD</code></pre></li><li><strong>instalar do repo clonado (npm install)</strong> <span class="bad">failed</span><pre><code>cd repo &amp;&amp; npm install</code></pre></li><li><strong>instalar como no README (npm global do registry)</strong> <span class="ok">ok</span><pre><code>npm install -g context-mode</code></pre></li><li><strong>README: doctor offline</strong> <span class="ok">ok</span><pre><code>context-mode doctor</code></pre></li><li><strong>README: ctx_execute via MCP</strong> <span class="ok">ok</span><pre><code>node cm.mjs readme</code></pre></li></ol>
+<p>Installed from npm, it ran fully offline with no API key. On a 1.1 MB, 20,000-line fake sales log, the agent got back a 295-byte answer with the error count (207) instead of reading the file into context. Installing from the cloned repo failed with an npm bug, and invalid input fails with clear error messages.</p><h2>Commands we ran</h2><p>Everything ran in a disposable Docker container. Reproduce with:</p><pre><code>git clone --depth 1 https://github.com/mksglu/context-mode.git
+npm install -g context-mode
+context-mode doctor
+# Our own case used a small helper script that starts the MCP server over stdio and calls ctx_execute_file on a 20,000-line fake sales log (~1.1 MB) to count the error lines.</code></pre><ol><li><strong>Clone the repo and check the version</strong> <span class="badge ok">passed</span><pre><code>git clone --depth 1 ... &amp;&amp; git rev-parse HEAD</code></pre></li><li><strong>Install from the cloned repo (npm install)</strong> <span class="badge bad">failed</span><pre><code>cd repo &amp;&amp; npm install</code></pre></li><li><strong>Install from npm (as in README)</strong> <span class="badge ok">passed</span><pre><code>npm install -g context-mode</code></pre></li><li><strong>Run the README health check (doctor), offline</strong> <span class="badge ok">passed</span><pre><code>context-mode doctor</code></pre></li><li><strong>Run a tool call through MCP (as in README)</strong> <span class="badge ok">passed</span></li></ol>
 <h2>Log excerpt</h2><pre><code>$ git clone --depth 1 https://github.com/mksglu/context-mode.git repo &amp;&amp; cd repo &amp;&amp; git rev-parse HEAD &amp;&amp; node -v &amp;&amp; npm -v &amp;&amp; grep -m3 -E &#x27;&quot;(version|license)&quot;&#x27; package.json &amp;&amp; ls
 abb104847cbb66c2182816a72bb69455bc778b5e
 v22.23.3
@@ -101,8 +103,8 @@ $ cd repo &amp;&amp; sed -n 1,140p README.md
 &lt;p align=&quot;center&quot;&gt;
 &lt;sub&gt;Used across teams at&lt;/sub&gt;
 &lt;br&gt;&lt;br&gt;
-... (508 more lines omitted)</code></pre>
-<h2>Security notes</h2><ul><li>postinstall mexe em ~/.claude do usuario</li><li>hooks interceptam chamadas do agente</li><li>licenca ELv2</li></ul>
+... (358 more lines omitted)</code></pre>
+<h2>Security notes</h2><ul><li>The postinstall script reads and writes the user&#x27;s ~/.claude folder</li><li>Hooks intercept the agent&#x27;s tool calls when used as the full plugin</li><li>License is Elastic License 2.0 (ELv2), not an OSI open-source license</li></ul>
 <p><small>Our verdict reflects one test on 2026-10-11 with version 1.0.169. Newer versions may behave differently.</small></p></main>
 <footer><div class="w">&copy; Does It Run? &middot; <a href="/privacy/">Privacy</a> &middot; <a href="/terms/">Terms</a> &middot; <a href="mailto:doesitrunmanager@gmail.com">Contact</a></div></footer>
 </body></html>
