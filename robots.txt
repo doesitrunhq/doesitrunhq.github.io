@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://doesitrunhq.github.io/sitemap.xml
